@@ -42,7 +42,7 @@
       
     </swiper>
 </div>
-<h1>Series</h1>
+<h1 class="titulo">Series</h1>
 <div v-for="i in 4" :key="i" class="row">  
   {{ObtenerSeries(i)}}
   <swiper
