@@ -1,7 +1,7 @@
 <template>
 
     <img alt="Vue logo" src="../assets/logo.png">
-    <h1>Registrarse</h1>    
+    <h1 class="titulo">Registrarse</h1>    
     <div class="registro">
         <!-- <button v-on:click="signUp()">Registrarse </button> -->
         
@@ -40,6 +40,13 @@ export default {
 }
 </script>
 <style>
+.titulo{
+  color: rgb(255, 255, 255);
+  font-family: 'Courier New', Courier, monospace;
+}
+body{
+    background-color: white;
+}
     .registro input{
         width: 300px;
         height: 40px;
@@ -54,12 +61,14 @@ export default {
         width: 320px;
         height: 40px;
         border: 1px solid;
-        background: lightgray;
-        color: #fff;
-        cursor: pointer;
+        background: rgb(255, 0, 0);
+        color: rgb(255, 255, 255);
+        cursor: pointer;        
+        font-family: 'Courier New', Courier, monospace;   
+        border-radius: 80px 20px;     
     }
     .registro button:hover
     {
-        background: rgb(85, 84, 84);        
+        background: rgb(255, 89, 89);        
     };
 </style>

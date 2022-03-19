@@ -11,18 +11,12 @@
 
         <div class="title2">{{this.Serie.name}}</div>    
         
-        <fieldset class="rating">
-    <input type="radio" id="star5" name="rating" value="5" /><label class = "full" for="star5" title="Awesome - 5 stars"></label>
-    <input type="radio" id="star4half" name="rating" value="4 and a half" /><label class="half" for="star4half" title="Pretty good - 4.5 stars"></label>
-    <input type="radio" id="star4" name="rating" value="4" checked /><label class = "full" for="star4" title="Pretty good - 4 stars"></label>
-    <input type="radio" id="star3half" name="rating" value="3 and a half" /><label class="half" for="star3half" title="Meh - 3.5 stars"></label>
-    <input type="radio" id="star3" name="rating" value="3" /><label class = "full" for="star3" title="Meh - 3 stars"></label>
-    <input type="radio" id="star2half" name="rating" value="2 and a half" /><label class="half" for="star2half" title="Kinda bad - 2.5 stars"></label>
-    <input type="radio" id="star2" name="rating" value="2" /><label class = "full" for="star2" title="Kinda bad - 2 stars"></label>
-    <input type="radio" id="star1half" name="rating" value="1 and a half" /><label class="half" for="star1half" title="Meh - 1.5 stars"></label>
-    <input type="radio" id="star1" name="rating" value="1" /><label class = "full" for="star1" title="Sucks big time - 1 star"></label>
-    <input type="radio" id="starhalf" name="rating" value="half" /><label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label>
-  </fieldset>
+        <div class="slidecontainer">
+          <input type="range" min="1" max="10"  v-bind:value="this.Serie.vote_average" class="slider" id="myRange" v-on:input="ValorCalif($event.target.value)">                            
+          <h2 v-if="Valorint>0" style="color:black;">{{Valorint}}</h2>
+          <h2 v-else style="color:black;">{{this.Serie.vote_average}}</h2>
+          
+        </div>
         
       </div> <!-- end details -->
       
@@ -64,34 +58,43 @@ export default {
     data(){
         return{
             id:null,
-            Serie:[]
+            user:null,
+            url_calif:null,
+            url_calif2:null,
+            Serie:[],
+            Valorint:0
         }
     },
     mounted(){
         this.id=this.$route.params.id
-        var ulr_final=API_URL_PELICULAS+this.id+"?"+API_KEY+LEANGUAJE           
+        this.user=this.$route.params.user
+        var ulr_final=API_URL_PELICULAS+this.id+"?"+API_KEY+LEANGUAJE
+        this.url_calif=BASE_URL+"/tv/"+this.id+"/rating"
 
        fetch(ulr_final)
        .then(res => res.json())
        .then(json => this.Serie= json)
        console.log(ulr_final)
-        }
+        },
         
-//    methods:{
-//         async ObtenerPelicula(){  
-//         this.id=this.$route.params.id
-//         var ulr_final=API_URL_PELICULAS+this.id+"?"+API_KEY+LEANGUAJE           
-//         console.log(ulr_final)
-//         const resultado = await fetch(ulr_final)
-//         .then((res) => res.json())
-//         .then(json => 
-//              json.results
-//         )
-//         console.log(resultado)
-//         //console.log(API_URL_PELICULAS+this.id+"?"+API_KEY+LEANGUAJE)
-//         // console.log("https://api.themoviedb.org/3/movie/{movie_id}?api_key=62868d55814d83675f4b2919e4cb55bb&language=en-US")
-//       }     
-//     },
+     methods:{      
+      ValorCalif( valor)
+      {
+         const requestOptions = {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({value:valor })
+        };
+        fetch(this.url_calif+"?"+API_KEY+"&guest_session_id="+this.user, requestOptions)
+          .then(response => response.json())
+          .then(data => console.log(data));
+        console.log(this.url_calif)
+        console.log(valor)
+        console.log(this.id)
+        console.log(this.user)
+        this.Valorint = valor
+      }
+    },
     
 }
 </script>

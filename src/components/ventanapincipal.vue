@@ -1,5 +1,5 @@
 <template>
-<h1>Peliculas</h1>
+<h1 class="titulo">Peliculas</h1>
 <div v-for="i in 4" :key="i" class="row">  
   {{ObtenerPeliculas(i)}}
   <swiper
@@ -146,7 +146,10 @@ export default {
 
 </script>
 <style>
-
+.titulo{
+  color: rgb(255, 255, 255);
+  font-family: 'Courier New', Courier, monospace;
+}
 body{
   background: #141414;
 }
