@@ -2,6 +2,9 @@
 <h1 class="titulo">Peliculas</h1>
 <div v-for="i in 4" :key="i" class="row">  
   {{ObtenerPeliculas(i)}}
+  <h1 class="groupby" v-if="i==1">Favorite</h1>
+  <h1 class="groupby" v-else-if="i==2">Recommendations</h1>
+  <h1 class="groupby" v-else-if="i==3">Rated</h1>
   <swiper
       :slidesPerView="4"
       :spaceBetween="30"
@@ -16,12 +19,15 @@
       class="mySwiper"
     >
     
+    
       <swiper-slide v-for="movie in Movies[i]" :key="movie">
-         <a :href="movie.id">
+            
+         <a :href="movie.id">           
            <router-link
         :to="'/Pelicula/' + $route.params.user +'/'+ movie.id"
         v-slot="{href,  navigate}"
         >
+            
             <a :href="href" @click="navigate" class='whatever-you-want'>
             <div class="team__item set-bg"  :style="{'background-image':'url(https://image.tmdb.org/t/p/w500'+ movie.poster_path+')'}">
             <div class="team__text">
@@ -45,6 +51,9 @@
 <h1 class="titulo">Series</h1>
 <div v-for="i in 4" :key="i" class="row">  
   {{ObtenerSeries(i)}}
+  <h1 class="groupby" v-if="i==1">Favorite</h1>
+  <h1 class="groupby" v-else-if="i==2">Recommendations</h1>
+  <h1 class="groupby" v-else-if="i==3">Rated</h1>
   <swiper
       :slidesPerView="4"
       :spaceBetween="30"
@@ -60,11 +69,15 @@
     >
     
       <swiper-slide v-for="movie in Series[i]" :key="movie">
+        
          <a :href="movie.id">
            <router-link
         :to="'/Serie/' + $route.params.user +'/'+ movie.id"
         v-slot="{href,  navigate}"
         >
+            <h1 v-if="i==1">Favorite</h1>
+            <h1 v-else-if="i==2">Recommendations</h1>
+            <h1 v-else-if="i==3">Rated</h1>
             <a :href="href" @click="navigate" class='whatever-you-want'>
           <div class="team__item set-bg"  :style="{'background-image':'url(https://image.tmdb.org/t/p/w500'+ movie.poster_path+')'}">
             <div class="team__text">
@@ -146,6 +159,13 @@ export default {
 
 </script>
 <style>
+.groupby{
+  color:white;
+  font-family: 'Times New Roman', Times, serif;
+  display: flex;        
+  width: auto;
+  height: auto;
+}
 .titulo{
   color: rgb(255, 255, 255);
   font-family: 'Courier New', Courier, monospace;
