@@ -1,0 +1,286 @@
+<template>
+<h1>Peliculas</h1>
+<div v-for="i in 4" :key="i" class="row">  
+  {{ObtenerPeliculas(i)}}
+  <swiper
+      :slidesPerView="4"
+      :spaceBetween="30"
+      :slidesPerGroup="4"
+      :loop="true"
+      :loopFillGroupWithBlank="true"
+      :pagination="{
+        clickable: true,
+      }"
+      :navigation="true"
+      :modules="modules"      
+      class="mySwiper"
+    >
+    
+      <swiper-slide v-for="movie in Movies[i]" :key="movie">
+         <a :href="movie.id">
+           <router-link
+        :to="'/Pelicula/' + $route.params.user +'/'+ movie.id"
+        v-slot="{href,  navigate}"
+        >
+            <a :href="href" @click="navigate" class='whatever-you-want'>
+            <div class="team__item set-bg"  :style="{'background-image':'url(https://image.tmdb.org/t/p/w500'+ movie.poster_path+')'}">
+            <div class="team__text">
+              <div class="team__title">
+                <h4>{{movie.title}}</h4>              
+              </div>
+              <p>{{movie.overview}}</p>            
+            </div>
+          </div>
+            </a>
+        </router-link>
+          
+        </a>         
+                
+        
+      </swiper-slide>
+    
+      
+    </swiper>
+</div>
+<h1>Series</h1>
+<div v-for="i in 4" :key="i" class="row">  
+  {{ObtenerSeries(i)}}
+  <swiper
+      :slidesPerView="4"
+      :spaceBetween="30"
+      :slidesPerGroup="4"
+      :loop="true"
+      :loopFillGroupWithBlank="true"
+      :pagination="{
+        clickable: true,
+      }"
+      :navigation="true"
+      :modules="modules"      
+      class="mySwiper"
+    >
+    
+      <swiper-slide v-for="movie in Series[i]" :key="movie">
+         <a :href="movie.id">
+           <router-link
+        :to="'/Serie/' + $route.params.user +'/'+ movie.id"
+        v-slot="{href,  navigate}"
+        >
+            <a :href="href" @click="navigate" class='whatever-you-want'>
+          <div class="team__item set-bg"  :style="{'background-image':'url(https://image.tmdb.org/t/p/w500'+ movie.poster_path+')'}">
+            <div class="team__text">
+              <div class="team__title">
+                <h4>{{movie.name}}</h4>              
+              </div>
+              <p>{{movie.overview}}</p>            
+            </div>
+          </div>
+         </a>
+        </router-link>
+          
+        </a>          
+                
+        
+      </swiper-slide>
+    
+      
+    </swiper>
+</div> 
+</template>
+<script>
+import { Swiper, SwiperSlide } from "swiper/vue";
+
+
+import "swiper/css";
+
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+
+// import required modules
+import { Pagination, Navigation } from "swiper";
+
+
+const API_KEY="api_key=62868d55814d83675f4b2919e4cb55bb";
+const BASE_URL="https://api.themoviedb.org/3";
+const API_URL_PELICULAS=BASE_URL+"/discover/movie?sort_by=popularity.desc&"+API_KEY+"&language=es-MX&page=";
+const API_URL_SERIES=BASE_URL+"/tv/popular?"+API_KEY+"&language=es-MX&page="
+
+
+
+export default {
+    // eslint-disable-next-line vue/multi-word-component-names
+    name:'Index',
+    IMG_URL:"https://image.tmdb.org/t/p/w500",
+    data(){         
+        return{  
+          Series:[],                     
+          Movies:[],
+          Aok:[]
+        }
+    },
+    components: {
+      Swiper,
+      SwiperSlide,
+    },
+    setup() {
+    return {
+      modules: [Pagination, Navigation],
+    };
+  },
+    created(){
+        
+    },
+    methods:{
+      ObtenerPeliculas(i){        
+        fetch(API_URL_PELICULAS+i)
+        .then((res) => res.json())
+        .then(json =>this.Movies.push(json.results))        
+      },
+      ObtenerSeries(i)
+      {
+        fetch(API_URL_SERIES+i)
+        .then((res) => res.json())
+        .then(json =>this.Series.push(json.results))        
+      }
+    }
+}
+
+</script>
+<style>
+
+body{
+  background: #141414;
+}
+       
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap");
+.team {
+  padding-bottom: 70px;
+  font-family: "Poppins", sans-serif;
+}
+.team .section-title {
+  text-align: left;
+  margin-bottom: 50px;
+}
+.team__item {
+  height: 480px;
+  position: relative;
+  z-index: 1;
+  margin-bottom: 30px;
+  overflow: hidden;
+  background-position: center;
+  background-size: cover;
+}
+.team__item:after {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(206, 206, 206, 0.8);
+  content: "";
+  z-index: -1;
+  opacity: 0;
+  -webkit-transition: all, 0.5s, ease-out, 0.5s;
+  -o-transition: all, 0.5s, ease-out, 0.5s;
+  transition: all, 0.5s, ease-out, 0.5s;
+}
+.team__item:hover:after {
+  opacity: 1;
+}
+.team__item:hover .team__text {
+  top: 0;
+}
+.team__item:hover .team__text .team__title {
+  border-bottom: 1px solid rgba(183, 183, 183, 0.2);
+  padding: 0 0 26px;
+  margin-bottom: 26px;
+  opacity: 0;
+  visibility: hidden;
+  position: relative;
+  bottom: initial;
+  opacity: 1;
+  visibility: visible;
+}
+.team__item:hover .team__text p {
+  top: 0;
+  opacity: 1;
+  visibility: visible;
+  -webkit-transition: all 0.5s ease 0.3s;
+  -o-transition: all 0.5s ease 0.3s;
+  transition: all 0.5s ease 0.3s;
+}
+.team__item:hover .team__text .team__social {
+  opacity: 1;
+  visibility: visible;
+  bottom: 34px;
+  -webkit-transition: all 0.5s ease 0.5s;
+  -o-transition: all 0.5s ease 0.5s;
+  transition: all 0.5s ease 0.5s;
+}
+.team__text {
+  height: 100%;
+  top: 361px;
+  position: relative;
+  padding: 35px 30px 30px;
+  -webkit-transition: 0.5s;
+  -o-transition: 0.5s;
+  transition: 0.5s;
+}
+.team__text .team__title {
+  border-bottom: 1px solid rgb(255, 255, 255);
+  padding: 0 0 26px;
+  margin-bottom: 26px;
+  position: relative;
+}
+.team__text .team__title h4 {
+  color: rgb(248, 237, 237);
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.team__text .team__title span {
+  font-size: 15px;
+  color: #88c417;
+}
+.team__text p {
+  color: #333333;
+  line-height: 26px;
+  opacity: 0;
+  visibility: hidden;
+  position: relative;
+  top: 50px;
+  -webkit-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+.team__text .team__social {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  padding: 0 30px;
+  bottom: 0;
+  opacity: 0;
+  visibility: hidden;
+}
+.team__text .team__social a {
+  display: inline-block;
+  font-size: 20px;
+  color: #fff;
+  margin-right: 34px;
+  -webkit-transition: all, 0.3s;
+  -o-transition: all, 0.3s;
+  transition: all, 0.3s;
+}
+.team__text .team__social a:last-child {
+  margin-right: 0;
+}
+.team__text .team__social a:hover {
+  color: #88c417;
+}
+@media (max-width: 768px) {
+  .team__item {
+    height: 350px;
+  }
+  .team__text {
+    padding: 25px 20px 20px;
+  }
+}
+    </style>
