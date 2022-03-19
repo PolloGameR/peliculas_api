@@ -75,9 +75,6 @@
         :to="'/Serie/' + $route.params.user +'/'+ movie.id"
         v-slot="{href,  navigate}"
         >
-            <h1 v-if="i==1">Favorite</h1>
-            <h1 v-else-if="i==2">Recommendations</h1>
-            <h1 v-else-if="i==3">Rated</h1>
             <a :href="href" @click="navigate" class='whatever-you-want'>
           <div class="team__item set-bg"  :style="{'background-image':'url(https://image.tmdb.org/t/p/w500'+ movie.poster_path+')'}">
             <div class="team__text">
