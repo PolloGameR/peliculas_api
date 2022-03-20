@@ -1,4 +1,4 @@
-# pelicuas_api
+# API para películas
 
 ## Project setup
 ```
