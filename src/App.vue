@@ -1,4 +1,5 @@
 <template>
+  
   <!-- <div id="nav">
       <router-link to="/">Login</router-link> |      
   </div> -->
@@ -6,13 +7,13 @@
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+
 
 export default {
   name: 'App',
   components: {
     // eslint-disable-next-line vue/no-unused-components
-    HelloWorld
+    
   }
 }
 </script>
